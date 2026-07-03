@@ -159,3 +159,30 @@ def callback():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
+
+import requests
+
+# 봇의 연동 정보 설정 구역
+BOT_TOKEN = "MTUyMjU1NzYwNzcyODkwNjMwMA.Gox4r5.FfpINq8IzyZYsT5IDRkA2vIZRHDd4sMdTm2eGQ"
+GUILD_ID = "1515507254852452383"
+ROLE_ID = "1522565086437441588"
+
+def add_role_to_user(user_id):
+    # 디스코드 API 역할 지급 주소
+    url = f"https://discord.com/api/v10/guilds/{GUILD_ID}/members/{user_id}/roles/{ROLE_ID}"
+    
+    # 봇의 권한을 증명하는 헤더 설정
+    headers = {
+        "Authorization": f"Bot {BOT_TOKEN}",
+        "Content-Type": "application/json"
+    }
+    
+    # 디스코드 본사에 PUT 요청 전송 (역할 추가 명령)
+    response = requests.put(url, headers=headers)
+    
+    if response.status_code == 204:
+        print(f"성공: {user_id} 유저에게 역할을 지급했습니다.")
+        return True
+    else:
+        print(f"실패: 에러 코드 {response.status_code} - {response.text}")
+        return False
