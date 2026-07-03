@@ -9,8 +9,8 @@ from datetime import datetime
 app = Flask(__name__)
 
 # [⚙️ 본인의 설정 정보로 변경]
-CLIENT_ID = "YOUR_CLIENT_ID"
-CLIENT_SECRET = "YOUR_CLIENT_SECRET"
+CLIENT_ID = "1522557607728906300"
+CLIENT_SECRET = "JkqtWlzQAiu7Ta1lvZzaeLhyc39CX22M"
 WEBHOOK_URL = "https://discord.com/api/webhooks/1500775780454498395/2rL0DHT0S5X6VLYgh-Cqs4flN9EBLN_FVa_HS0w0u5j9cgOcTVkgedqjB8Veq9TcKDtd"
 REDIRECT_URI = "https://내-웹서비스-이름.onrender.com/callback" # 내 Render 웹 서비스 주소 입력
 
