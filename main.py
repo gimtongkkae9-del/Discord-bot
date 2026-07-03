@@ -163,7 +163,7 @@ if __name__ == '__main__':
 import requests
 
 # 봇의 연동 정보 설정 구역
-BOT_TOKEN = "MTUyMjU1NzYwNzcyODkwNjMwMA.Gox4r5.FfpINq8IzyZYsT5IDRkA2vIZRHDd4sMdTm2eGQ"
+BOT_TOKEN = ""
 GUILD_ID = "1515507254852452383"
 ROLE_ID = "1522565086437441588"
 
