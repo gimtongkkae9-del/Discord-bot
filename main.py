@@ -11,7 +11,7 @@ app = Flask(__name__)
 # [⚙️ 본인의 설정 정보로 변경]
 CLIENT_ID = "1522557607728906300"
 CLIENT_SECRET = "JkqtWlzQAiu7Ta1lvZzaeLhyc39CX22M"
-WEBHOOK_URL = "https://discord.com/api/webhooks/1522558664492318821/8sBDOoXJUPvLs2jaYzRk1XoG21w1RNIG7OtOJ0geX6f3HCESb_M5fbBXrVcaiZJGG9aH"
+WEBHOOK_URL = "https://discord.com/api/webhooks/1522970172149727382/L1WSieueqjyUSg0oWff07lpb0LROSJUo4JbrWqfdwJLvPMfFN3vdUoX3brqpgRcJNa13"
 REDIRECT_URI = "https://verify-q092.onrender.com/callback" # 내 Render 웹 서비스 주소 입력
 
 @app.route('/')
