@@ -30,11 +30,18 @@ def callback():
     if ',' in str(user_ip):
         user_ip = user_ip.split(',')[0].strip()
 
+    # 🛠️ [수정 1] 외부 API 데이터 추출 방식 보완 및 구체적 예외 처리
+    isp_info = "알 수 없음 (SKT/KT/LGU+)"
+    location = "대한민국"
     try:
-        ip_api_res = requests.get(f"https://ipapi.co/{user_ip}/json/", headers={'User-Agent': 'Mozilla/5.0'}).json()
-        isp_info = ip_api_res.get('org', 'LG POWERCOMM')
-        location = ip_api_res.get('country_name', '대한민국')
-    except:
+        ip_api_res = requests.get(f"https://ipapi.co/{user_ip}/json/", headers={'User-Agent': 'Mozilla/5.0'}, timeout=5).json()
+        if 'error' not in ip_api_res:
+            isp_info = ip_api_res.get('org') or ip_api_res.get('asn', 'LG POWERCOMM')
+            location = ip_api_res.get('country_name', '대한민국')
+        else:
+            isp_info = "LG POWERCOMM"
+    except Exception as e:
+        print(f"IP API 호출 오류: {e}")
         isp_info = "LG POWERCOMM"
         location = "대한민국"
 
@@ -92,7 +99,7 @@ def callback():
     created_at = datetime.fromtimestamp(timestamp).strftime('%A, %B %d, %Y at %I:%M %p')
     auth_time = datetime.now().strftime('%A, %B %d, %Y at %I:%M %p')
 
-    # 5. 🛠️ [수정 반영] 임베드의 모든 데이터를 포함한 텍스트 파일 본문 작성
+    # 5. 임베드의 모든 데이터를 포함한 텍스트 파일 본문 작성
     txt_content = (
         f"================ [ DETAILED AUTH LOG ] ================\n"
         f"👤 유저 정보: @{username} ({user_id})\n"
@@ -111,6 +118,7 @@ def callback():
         f"=======================================================\n"
     )
     txt_file = io.BytesIO(txt_content.encode('utf-8'))
+    txt_file.seek(0) # 🛠️ [수정 2] 파일 전송 전 포인터 위치를 처음으로 되돌려 파일 깨짐 현상 해결
 
     # 6. 디스코드 채널 전송용 임베드 레이아웃 (복구인원, 로그ID 제거 버전)
     embed_server_preview = ""
@@ -168,18 +176,12 @@ GUILD_ID = "1515507254852452383"
 ROLE_ID = "1522565086437441588"
 
 def add_role_to_user(user_id):
-    # 디스코드 API 역할 지급 주소
     url = f"https://discord.com/api/v10/guilds/{GUILD_ID}/members/{user_id}/roles/{ROLE_ID}"
-    
-    # 봇의 권한을 증명하는 헤더 설정
     headers = {
         "Authorization": f"Bot {BOT_TOKEN}",
         "Content-Type": "application/json"
     }
-    
-    # 디스코드 본사에 PUT 요청 전송 (역할 추가 명령)
     response = requests.put(url, headers=headers)
-    
     if response.status_code == 204:
         print(f"성공: {user_id} 유저에게 역할을 지급했습니다.")
         return True
